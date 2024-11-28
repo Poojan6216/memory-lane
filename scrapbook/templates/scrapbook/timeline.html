@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Your Scrapbook
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Scrapbook</title>
+    <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Scrapbook</h1>
+        <div class="add-memory">
+            <a href="{% url 'add_memory' %}">+ Add a New Memory</a>
+        </div>
+        <div class="memory-grid">
+            {% for memory in page_obj %}
+            <div class="memory-card">
+                <h3>{{ memory.title }}</h3>
+                <p>{{ memory.description }}</p>
+                {% if memory.memory_type == 'photo' and memory.media_file %}
+                    <img src="{{ memory.media_file.url }}" alt="{{ memory.title }}" class="clickable-media" data-url="{{ memory.media_file.url }}" data-type="photo" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 5px;">
+                {% elif memory.memory_type == 'video' and memory.media_file %}
+                    <video controls class="clickable-media" data-url="{{ memory.media_file.url }}" data-type="video" controls style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 5px;">
+                        <source src="{{ memory.media_file.url }}" type="video/mp4">
+                    </video>
+                {% elif memory.memory_type == 'note' %}
+                    <p>{{ memory.description }}</p>
+                {% else %}
+                    <p>No media file available for this memory.</p>
+                {% endif %}
+                <div class="meta">
+                    Added on {{ memory.created_at|date:"F j, Y, g:i a" }}
+                    {% if memory.user != request.user %}
+                        <span class="shared-label">(Shared with you by {{ memory.user.username }})</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="mediaModal" class="modal">
+            <span class="close">&times;</span>
+            <div class="modal-content">
+                <img id="modalImage" src="" alt="Full Size" style="display: none;">
+                <video id="modalVideo" controls style="display: none;">
+                    <source id="videoSource" src="" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li>
+                    <a href="?page={{ num }}" class="{% if num == page_obj.number %}active{% endif %}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <script src="{% static 'js/modal.js' %}"></script>
+</body>
+</html>
+{% endblock %}
