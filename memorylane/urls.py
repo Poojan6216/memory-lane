@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('users.urls')),  # User-related URLs
     path('scrapbook/', include('scrapbook.urls')),  # Scrapbook-related URLs
     path('', lambda request: redirect('timeline', permanent=False)),  # Redirect root URL to timeline
+    path('users/', include('users.urls')),
 ]
 
 # Serving media files during development

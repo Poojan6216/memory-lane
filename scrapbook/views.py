@@ -47,6 +47,29 @@ def memory_detail(request, memory_id):
     return render(request, 'scrapbook/memory_detail.html', {'memory': memory})
 
 @login_required
-def my_memory(request):
+def my_memories(request):
     user_memories = Memory.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'scrapbook/my_memory.html', {'memories': user_memories})
+    paginator = Paginator(user_memories, 5)  # Show 5 memories per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'scrapbook/my_memories.html', {'page_obj': page_obj})
+
+@login_required
+def edit_memory(request, pk):
+    memory = get_object_or_404(Memory, id=pk, user=request.user)
+    if request.method == 'POST':
+        form = MemoryForm(request.POST, request.FILES, instance=memory)
+        if form.is_valid():
+            form.save()
+            #return redirect('my_memories')
+            return redirect('my_memory')
+    else:
+        form = MemoryForm(instance=memory)
+    return render(request, 'scrapbook/edit_memory.html', {'form': form, 'memory': memory})
+
+@login_required
+def delete_memory(request, pk):
+    memory = get_object_or_404(Memory, id=pk, user=request.user)
+    memory.delete()
+    #return redirect('my_memories')
+    return redirect('my_memory')

@@ -1,0 +1,121 @@
+<!-- templates/users/profile.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="file"],
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            margin-top: 10px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Profile</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Non-Editable Fields -->
+            <div class="form-group">
+                <label for="id_profile_picture">Profile Photo:</label><br>
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile Photo" style="width: 150px; height: 150px; border-radius: 50%;"><br>
+                {% else %}
+                    <img src="{% static 'images/default_profile.png' %}" alt="Default Profile" style="width: 150px; height: 150px; border-radius: 50%;"><br>
+                {% endif %}
+                <input type="file" name="profile_picture" id="id_profile_picture" disabled>
+            </div>
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                <input type="text" value="{{ user.username }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                <input type="email" value="{{ user.email }}" disabled>
+            </div>
+    
+            <!-- Editable Fields -->
+            <div class="form-group">
+                <label for="id_birthday">Birthday:</label>
+                <input type="date" name="birthday" id="id_birthday" value="{{ form.birthday.value|default:user.birthday|date:'Y-m-d' }}" disabled>
+            </div>
+    
+            <!-- Buttons -->
+            <button type="button" id="edit-btn" class="btn btn-secondary">Edit Profile</button>
+            <button type="submit" class="btn btn-primary" style="display: none;" id="save-btn">Save Changes</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editBtn = document.getElementById("edit-btn");
+            const saveBtn = document.getElementById("save-btn");
+            const birthdayField = document.getElementById("id_birthday");
+            const profilePhotoField = document.getElementById("id_profile_picture");
+    
+            editBtn.addEventListener("click", function () {
+                // Make fields editable
+                birthdayField.disabled = false;
+                profilePhotoField.disabled = false;
+    
+                // Show Save button and hide Edit button
+                editBtn.style.display = "none";
+                saveBtn.style.display = "inline-block";
+            });
+        });
+    </script>        
+</body>
+</html>
+{% endblock %}

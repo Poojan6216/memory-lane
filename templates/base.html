@@ -11,17 +11,21 @@
 <body>
     <!-- Header Section -->
     <header class="header">
-        <div class="logo">
-            <h1><a href="{% url 'timeline' %}" style="color: rgb(28, 190, 199); text-decoration: none;">Memory Lane</a></h1>
+        <div class="header-container">
+            <div class="logo">
+                <h1><a href="{% url 'timeline' %}" class="logo-link">Memory Lane</a></h1>
+            </div>
             <nav class="menu">
-                <div class="dropdown">
-                    <img src="{% static 'images/profile-placeholder.png' %}" class="profile-icon">
-                        <div class="dropdown-content">
-                            <a href="{% url 'profile' %}">Profile</a>
-                            <a href="{% url 'my_memory' %}">My Memories</a>
-                            <a href="{% url 'logout' %}">Logout</a>
-                        </div>
-                </div>
+                <ul class="menu-list">
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'my_memory' %}">My Memories</a></li>
+                    <li>
+                        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="border: none; background: none; cursor: pointer; color: inherit; text-decoration: underline;">Logout</button>
+                        </form>
+                    </li>
+                </ul>
             </nav>
         </div>
     </header>
