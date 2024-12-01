@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,6 +52,29 @@
             border: 1px solid #18d26e; /* Green accent on focus */
             box-shadow: 0 0 10px #18d26e;
         }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #aaa;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0;
+            left: 5px;
+            font-size: 12px;
+            color: #007bff;
+            background: #fff;
+            padding: 0 5px;
+        }
 
         button {
             background: #18d26e; /* Vibrant green button */
@@ -62,6 +86,11 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:active {
+            transform: scale(0.95); /* Button shrinks slightly */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         button:hover {
@@ -96,12 +125,29 @@
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Login</button>           
+            <!-- <button type="submit">Login</button> -->
+            <button type="submit" id="submit-btn">
+                <span id="btn-text">Login</span>
+                <span id="spinner" style="display:none;">
+                    <img src="{% static 'images/spinner.gif' %}" alt="Loading..." style="width: 20px; height: 20px;">
+                </span>
+            </button>            
         </form>
         <div class="signup-link">
             <p>Don’t have an account? <a href="{% url 'signup' %}">Sign up</a></p>
             <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#submit-btn").addEventListener("click", function () {
+                const btnText = document.querySelector("#btn-text");
+                const spinner = document.querySelector("#spinner");
+    
+                btnText.style.display = "none"; // Hide "Login" text
+                spinner.style.display = "inline-block"; // Show spinner
+            });
+        });
+    </script>    
 </body>
 </html>
