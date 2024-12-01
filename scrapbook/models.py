@@ -8,7 +8,7 @@ class Memory(models.Model):
         ('note', 'Note'),
     ]
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True)
     memory_type = models.CharField(max_length=10, choices=MEMORY_TYPES)
     media_file = models.FileField(upload_to='memories/', blank=True, null=True)
@@ -25,3 +25,4 @@ class SharedAccess(models.Model):
 
     def __str__(self):
         return f"{self.memory.title} shared with {self.shared_with.username}"
+    

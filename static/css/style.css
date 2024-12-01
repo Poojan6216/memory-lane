@@ -125,11 +125,11 @@ h1 {
     }
 }
   
-.memory-card h3 {
+/*.memory-card h3 {
     margin: 0 0 10px;
     font-size: 20px;
     color: #555;
-}
+}*/
   
 .memory-card p {
     margin: 0 0 10px;
@@ -177,6 +177,38 @@ h1 {
     color: #ff5722;
     font-weight: bold;
     margin-top: 5px;
+}
+
+/* Uploader Info Styling */
+.memory-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.uploader-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: static;
+    top: 3px;
+    left: 10px;
+}
+
+.uploader-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.uploader-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
 }
 
 /* Pagination Styling */

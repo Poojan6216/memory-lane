@@ -138,7 +138,8 @@ STATICFILES_FINDERS = [
     #'sass_processor.finders.CssFinder',  # Add SCSS file finder
 ]
 
-
+#DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
+#FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
 
 
 

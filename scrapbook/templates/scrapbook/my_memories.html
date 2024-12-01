@@ -11,7 +11,7 @@
             {% for memory in page_obj %}
                 <div class="memory-card">
                     <div class="memory-card-header">
-                        <h3>{{ memory.title }}</h3>
+                        <!-- <h3>{{ memory.title }}</h3> -->
                         <div class="dropdown">
                             <button class="dropdown-btn">&#8942;</button>
                             <div class="dropdown-content">
@@ -21,10 +21,12 @@
                         </div>
                     </div>
                     <!-- <h3>{{ memory.title }}</h3> -->
-                    <p>{{ memory.description }}</p>
+                    <!-- <p>{{ memory.description }}</p> -->
                     {% if memory.memory_type == 'photo' and memory.media_file %}
+                        <p>{{ memory.description }}</p>
                         <img src="{{ memory.media_file.url }}" alt="{{ memory.title }}" class="clickable-media" data-url="{{ memory.media_file.url }}" data-type="photo" style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 5px">
                     {% elif memory.memory_type == 'video' and memory.media_file %}
+                        <p>{{ memory.description }}</p>
                         <video controls class="clickable-media" data-url="{{ memory.media_file.url }}" data-type="video" style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 5px;">
                             <source src="{{ memory.media_file.url }}" type="video/mp4">
                         </video>
@@ -212,9 +214,10 @@
         cursor: pointer;
     }
     .dropdown {
-        position: relative;
+        position: absolute;
         display: inline-block;
         right: 10px; /* Positions the three dots to the far right */
+        top: 0px;
     }
 
     .dropdown-btn {

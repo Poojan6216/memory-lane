@@ -14,7 +14,7 @@ class MemoryForm(forms.ModelForm):
 
     class Meta:
         model = Memory
-        fields = ['title', 'description', 'memory_type', 'media_file','shared_with']
+        fields = ['description', 'memory_type', 'media_file','shared_with']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write a short description...'}),
         }
