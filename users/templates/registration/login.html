@@ -5,43 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        /* Resetting Body */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Poppins", Arial, sans-serif;
+            background: linear-gradient(to bottom right, #1e1e1e, #2b2b2b); /* Dark gradient */
+            color: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Container Box */
+        .login-container {
+            background: #292929; /* Dark card-like background */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
             max-width: 400px;
-            margin: auto;
-            padding: 20px;
             text-align: center;
         }
+
+        /* Form Elements */
         form {
             display: flex;
             flex-direction: column;
         }
-        input, button {
-            margin-top: 10px;
-            padding: 10px;
+
+        input {
+            background: #1f1f1f; /* Input field background */
+            color: #fafafa; /* Text inside input */
+            border: none;
+            padding: 12px;
             font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s;
         }
+
+        input:focus {
+            border: 1px solid #18d26e; /* Green accent on focus */
+            box-shadow: 0 0 10px #18d26e;
+        }
+
         button {
-            background-color: #007bff;
-            color: white;
+            background: #18d26e; /* Vibrant green button */
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background: #15b762; /* Slightly darker green on hover */
+            box-shadow: 0 4px 15px rgba(24, 210, 110, 0.5);
+        }
+
+        h1 {
+            color: #fafafa;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #18d26e;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .signup-link {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don’t have an account? <a href="{% url 'signup' %}">Sign up</a></p>
-    <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+    <div class="login-container">
+        <h1>Welcome Mate</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>           
+        </form>
+        <div class="signup-link">
+            <p>Don’t have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+            <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+        </div>
+    </div>
 </body>
 </html>
-
