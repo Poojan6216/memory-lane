@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-mr5f3e(jpz&6(4yw8zvibvx=^ttzt!zy2c4$c727+o(!-ksj)!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTHORIZED_USERS = ['poojanpatel119@gmail.com', 'pruthabhatt1@gmail.com','poojanpatel0403@gmail.com']
 
 
 # Application definition
@@ -128,6 +129,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'users.CustomUser'
 LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = 'timeline'
 #STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 #INSTALLED_APPS += ['sass_processor']

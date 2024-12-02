@@ -22,9 +22,9 @@ def timeline(request):
     paginator = Paginator(all_memories, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    shared_memories = Memory.objects.filter(
-    id__in=SharedAccess.objects.filter(shared_with=request.user).values_list('memory_id', flat=True)
-    )
+    #shared_memories = Memory.objects.filter(
+    #id__in=SharedAccess.objects.filter(shared_with=request.user).values_list('memory_id', flat=True)
+    #)
     return render(request, 'scrapbook/timeline.html', {'page_obj':page_obj })
 
 @login_required
@@ -35,11 +35,18 @@ def add_memory(request):
             memory = form.save(commit=False)
             memory.user = request.user
             memory.save()
-            form.save_m2m()  # Save Many-to-Many relationships
+            form.save_m2m()  # Save the Many-to-Many relationships
+
+            # Populate SharedAccess table
+            shared_users = form.cleaned_data['shared_with']
+            for user in shared_users:
+                SharedAccess.objects.create(memory=memory, shared_with=user)
+
             return redirect('timeline')
     else:
         form = MemoryForm()
     return render(request, 'scrapbook/add_memory.html', {'form': form})
+
 
 @login_required
 def memory_detail(request, memory_id):
@@ -60,12 +67,22 @@ def edit_memory(request, pk):
     if request.method == 'POST':
         form = MemoryForm(request.POST, request.FILES, instance=memory)
         if form.is_valid():
-            form.save()
-            #return redirect('my_memories')
+            memory = form.save(commit=False)
+            memory.user = request.user
+            memory.save()
+            form.save_m2m()  # Save Many-to-Many relationships
+
+            # Update SharedAccess table
+            SharedAccess.objects.filter(memory=memory).delete()  # Remove old shared data
+            shared_users = form.cleaned_data['shared_with']
+            for user in shared_users:
+                SharedAccess.objects.create(memory=memory, shared_with=user)
+
             return redirect('my_memory')
     else:
         form = MemoryForm(instance=memory)
     return render(request, 'scrapbook/edit_memory.html', {'form': form, 'memory': memory})
+
 
 @login_required
 def delete_memory(request, pk):

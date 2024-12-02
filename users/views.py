@@ -5,6 +5,8 @@ from django.contrib.auth import login
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import CustomUser
 from django.contrib import messages
+from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
 
 
 
@@ -29,6 +31,10 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            email = form.cleaned_data.get('email')
+            if email not in settings.AUTHORIZED_USERS:
+                form.add_error('email', 'This email is not authorized to register.')
+                return render(request, 'registration/signup.html', {'form': form})
             user = form.save()  # Save the new user to the database
             login(request, user)  # Log the user in automatically
             return redirect('timeline')  # Redirect to the timeline
@@ -79,3 +85,16 @@ def password_reset(request):
         return redirect('login')
 
     return render(request, 'users/password_reset.html')
+
+
+def custom_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.email in settings.AUTHORIZED_USERS:
+            login(request, user)
+            return redirect('timeline')  # Redirect to timeline or your desired page
+        else:
+            return render(request, 'unauthorized.html', {'message': 'You are not authorized to access this site.'})
+    return render(request, 'login.html')  # Use your login page template

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
     <style>
         /* Resetting Body */
         body {
@@ -98,11 +99,46 @@
             box-shadow: 0 4px 15px rgba(24, 210, 110, 0.5);
         }
 
-        h1 {
+        /*h1 {
             color: #fafafa;
             font-size: 28px;
             margin-bottom: 20px;
+        }*/
+        h1 {
+            color: #fafafa;
+            font-size: 56px; /* Increased size for emphasis */ 
+            margin-bottom: 20px;
+            font-weight: bolder;
+            text-align: center; /* Center-align for a balanced look */
+            letter-spacing: 2px; /* Slight spacing between letters */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+            background: linear-gradient(90deg, #18d26e, #1a85ff); /* Gradient text effect */
+            -webkit-background-clip: text; /* Gradient text effect */
+            -webkit-text-fill-color: transparent; /* Gradient text effect */
+            animation: fadeIn 2s ease-in-out, glow 1.5s infinite alternate; /* Animation effects */
         }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px #a8b2b4, 0 0 20px #18d26e;
+            }
+            to {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 15px #9fc1e9, 0 0 30px #1a85ff;
+            }
+        }
+
 
         a {
             color: #18d26e;
@@ -121,7 +157,8 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>Welcome Mate</h1>
+        <!-- <h1>Welcome Mate</h1> -->
+        <h1 style="font-family: 'Tiro Devanagari Sanskrit', serif">स्वागतम्</h1>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
