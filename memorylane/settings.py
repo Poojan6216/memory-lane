@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-mr5f3e(jpz&6(4yw8zvibvx=^ttzt!zy2c4$c727+o(!-ksj)!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'memorylane.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'memorylane.onrender.com','memory-lane-ykwi.onrender.com']
 
 #ALLOWED_HOSTS = []
 AUTHORIZED_USERS = ['poojanpatel119@gmail.com', 'pruthabhatt1@gmail.com','poojanpatel0403@gmail.com']
