@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'scrapbook',
     'sass_processor',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -125,11 +126,24 @@ SASS_PROCESSOR_ENABLED = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/static/'
+# Optional: Separate Static Files on S3
+#STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
 #SASS_PROCESSOR_ROOT = BASE_DIR / 'static'   # Optional: Set the SCSS processing root
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
+# Static and Media Files Storage
+# Optional: Separate Static Files on S3
+#STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
+#SASS_PROCESSOR_ROOT = BASE_DIR / 'static'   # Optional: Set the SCSS processing root
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
+# Static and Media Files Storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#MEDIA_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/media/'
+MEDIA_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/media/'
 AUTH_USER_MODEL = 'users.CustomUser'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'timeline'
@@ -153,3 +167,19 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = 'AKIASU56634Q35WEP3UG'  # Replace with your AWS access key
+AWS_SECRET_ACCESS_KEY = 'nleIG2MD262vErG6FnWNrJOOhrTyShRc0f69Ak7Q'  # Replace with your AWS secret key
+AWS_STORAGE_BUCKET_NAME = 'memorylanemedia'  # Replace with your S3 bucket name
+AWS_S3_REGION_NAME = 'us-east-2'  # e.g., 'us-east-1'
+AWS_QUERYSTRING_AUTH = False  # Set to True for private file
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}

@@ -10,21 +10,6 @@ from django.contrib.auth import authenticate, login, logout
 
 
 
-#@login_required
-#def profile(request):
- #   return render(request, 'users/profile.html')
-
-
-#def signup(request):
-#    if request.method == 'POST':
-#        form = UserCreationForm(request.POST)
-#        if form.is_valid():
-#            user = form.save()  # Save the new user to the database
-#            login(request, user)  # Log the user in automatically
-#            return redirect('timeline')  # Redirect to the timeline
-#    else:
-#        form = UserCreationForm()  # Display an empty form
-#    return render(request, 'registration/signup.html', {'form': form})
 
 
 def signup(request):
