@@ -11,16 +11,23 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+#import os
+#import environ
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Initialize environment variables
+#env = environ.Env()
+#environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mr5f3e(jpz&6(4yw8zvibvx=^ttzt!zy2c4$c727+o(!-ksj)!'
+#SECRET_KEY = 'django-insecure-mr5f3e(jpz&6(4yw8zvibvx=^ttzt!zy2c4$c727+o(!-ksj)!'
+SECRET_KEY = config('SECRET_KEY')  # Load from .env file
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -126,39 +133,20 @@ SASS_PROCESSOR_ENABLED = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/static/'
-# Optional: Separate Static Files on S3
-#STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
-#SASS_PROCESSOR_ROOT = BASE_DIR / 'static'   # Optional: Set the SCSS processing root
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#MEDIA_URL = '/media/'
-#MEDIA_ROOT = BASE_DIR / 'media'
-# Static and Media Files Storage
-# Optional: Separate Static Files on S3
-#STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
-#SASS_PROCESSOR_ROOT = BASE_DIR / 'static'   # Optional: Set the SCSS processing root
-#MEDIA_URL = '/media/'
-#MEDIA_ROOT = BASE_DIR / 'media'
 # Static and Media Files Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#MEDIA_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/media/'
 MEDIA_URL = f'https://memorylanemedia.s3.us-east-2.amazonaws.com/media/'
 AUTH_USER_MODEL = 'users.CustomUser'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'timeline'
-#STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-#INSTALLED_APPS += ['sass_processor']
-#STATICFILES_FINDERS += ['sass_processor.finders.CssFinder']
+
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #'sass_processor.finders.CssFinder',  # Add SCSS file finder
 ]
-
-#DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
-#FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50 MB
 
 
 
@@ -169,9 +157,12 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AWS S3 Configuration
-AWS_ACCESS_KEY_ID = 'AKIASU56634Q35WEP3UG'  # Replace with your AWS access key
-AWS_SECRET_ACCESS_KEY = 'nleIG2MD262vErG6FnWNrJOOhrTyShRc0f69Ak7Q'  # Replace with your AWS secret key
-AWS_STORAGE_BUCKET_NAME = 'memorylanemedia'  # Replace with your S3 bucket name
+#AWS_ACCESS_KEY_ID = 'AKIASU56634Q35WEP3UG'  # Replace with your AWS access key
+#AWS_SECRET_ACCESS_KEY = 'nleIG2MD262vErG6FnWNrJOOhrTyShRc0f69Ak7Q'  # Replace with your AWS secret key
+#AWS_STORAGE_BUCKET_NAME = 'memorylanemedia'  # Replace with your S3 bucket name
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = 'us-east-2'  # e.g., 'us-east-1'
 AWS_QUERYSTRING_AUTH = False  # Set to True for private file
 
